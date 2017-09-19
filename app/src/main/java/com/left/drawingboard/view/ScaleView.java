@@ -1,4 +1,4 @@
-package com.left.drawboard.view;
+package com.left.drawingboard.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -17,10 +17,6 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewTreeObserver;
 
-/**
- * @author zhy
- *         博客地址：http://blog.csdn.net/lmj623565791
- */
 public class ScaleView extends AppCompatImageView implements OnScaleGestureListener,
         OnTouchListener, ViewTreeObserver.OnGlobalLayoutListener
 

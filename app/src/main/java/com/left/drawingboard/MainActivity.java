@@ -1,11 +1,11 @@
-package com.left.drawboard;
+package com.left.drawingboard;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
-import com.left.drawboard.fragment.SketchFragment;
+import com.left.drawingboard.fragment.SketchFragment;
 
 public class MainActivity extends AppCompatActivity {
     private final static String FRAGMENT_TAG = "SketchFragmentTag";

@@ -114,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center" />
 
-            <com.left.drawboard.view.SketchView xmlns:android="http://schemas.android.com/apk/res/android"
+            <com.left.drawingboard.view.SketchView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/drawing"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

@@ -1,4 +1,4 @@
-package com.left.drawboard.fragment;
+package com.left.drawingboard.fragment;
 
 import android.animation.ObjectAnimator;
 import android.app.Activity;
@@ -40,8 +40,8 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.OpacityBar;
 import com.larswerkman.holocolorpicker.SVBar;
-import com.left.drawboard.R;
-import com.left.drawboard.view.SketchView;
+import com.left.drawingboard.R;
+import com.left.drawingboard.view.SketchView;
 import com.yancy.imageselector.ImageConfig;
 import com.yancy.imageselector.ImageLoader;
 import com.yancy.imageselector.ImageSelector;
