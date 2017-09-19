@@ -1,0 +1,166 @@
+<!--
+  ~ Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:fitsSystemWindows="false">
+
+
+    <LinearLayout
+
+        android:id="@+id/drawing_question"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:id="@+id/eraserView"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:padding="4dp">
+
+            <ImageView
+                android:id="@+id/sketch_stroke"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_brush_grey600_24dp" />
+
+            <ImageView
+                android:id="@+id/sketch_eraser"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_eraser" />
+
+            <ImageView
+                android:id="@+id/sketch_undo"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:alpha="0.4"
+                android:background="@null"
+                android:src="@drawable/ic_undo_grey600_24dp" />
+
+            <ImageView
+                android:id="@+id/sketch_redo"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:alpha="0.4"
+                android:src="@drawable/ic_redo_grey600_24dp" />
+
+
+            <ImageView
+                android:id="@+id/sketch_photo"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_photo_dark" />
+
+            <ImageView
+                android:id="@+id/sketch_save"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_file" />
+
+            <ImageView
+                android:id="@+id/sketch_erase"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_delete_grey600_48dp" />
+        </LinearLayout>
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#efeded">
+
+
+            <ImageView
+
+                android:id="@+id/iv_bg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+            <ImageView
+                android:id="@+id/iv_bg_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+            <com.zhangyp.higo.drawingboard.view.SketchView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/drawing"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="#fff" />
+
+        </FrameLayout>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/bt_show_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="原图"/>
+        <Button
+            android:id="@+id/bt_show_bg_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="手绘图"/>
+    </LinearLayout>
+
+</FrameLayout>
