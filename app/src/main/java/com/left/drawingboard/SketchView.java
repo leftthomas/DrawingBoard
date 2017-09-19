@@ -165,7 +165,6 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
         m_Path = new Path();
     }
 
-
     /**
      * Returns a new bitmap associated with drawed canvas
      *
@@ -186,6 +185,20 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
         return bitmap;
     }
 
+    /**
+     * Change canvas background and force redraw
+     */
+    public void setBitmap(Bitmap bitmap) {
+        if (!bitmap.isMutable()) {
+            Bitmap.Config bitmapConfig = bitmap.getConfig();
+            // set default bitmap config if none
+            if (bitmapConfig == null) {
+                bitmapConfig = Bitmap.Config.ARGB_8888;
+            }
+            bitmap = bitmap.copy(bitmapConfig, true);
+        }
+        this.bitmap = bitmap;
+    }
 
     /*
      * 删除一笔

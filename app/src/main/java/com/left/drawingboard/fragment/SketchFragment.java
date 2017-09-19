@@ -22,7 +22,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.PopupWindow;
 import android.widget.SeekBar;
@@ -71,12 +70,8 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
     ImageView sketchSave;
     @Bind(R.id.sketch_photo)
     ImageView sketchPhoto;
-    @Bind(R.id.eraserView)
-    LinearLayout eraserView;
     @Bind(R.id.iv_bg)
     ImageView ivBg;
-    @Bind(R.id.drawing_question)
-    LinearLayout drawingQuestion;
     @Bind(R.id.iv_bg_color)
     ImageView ivBgColor;
     @Bind(R.id.bt_show_bg)
@@ -425,16 +420,11 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
 
                             @Override
                             public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
-                                // Do something with bitmap here.
-
                                 init(resource);
-
                             }
-
                         });
             }
         }
-
     }
 
     private void init(Bitmap bitmap) {
@@ -449,14 +439,12 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
         float imgRatio = (float) height / (float) width;
         if (imgRatio >= screenRatio) {
             //高度大于屏幕，以高为准
-
-            scaleRatio = (float) mScreenWidth / (float) height;
+            scaleRatio = (float) mScreenHeight / (float) height;
 
         }
 
         if (imgRatio < screenRatio) {
             scaleRatio = (float) mScreenWidth / (float) width;
-
         }
 
         Matrix matrix = new Matrix();

@@ -5,14 +5,12 @@
     android:fitsSystemWindows="false">
 
     <LinearLayout
-        android:id="@+id/drawing_question"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#FFFFFF"
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/eraserView"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:orientation="horizontal"
