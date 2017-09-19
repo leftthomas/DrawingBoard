@@ -279,11 +279,11 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
 
 
         // Inflate the popup_layout.xml
-        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(ActionBarActivity
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Activity
                 .LAYOUT_INFLATER_SERVICE);
         popupLayout = inflater.inflate(R.layout.popup_sketch_stroke, null);
         // And the one for eraser
-        LayoutInflater inflaterEraser = (LayoutInflater) getActivity().getSystemService(ActionBarActivity
+        LayoutInflater inflaterEraser = (LayoutInflater) getActivity().getSystemService(Activity
                 .LAYOUT_INFLATER_SERVICE);
         popupEraserLayout = inflaterEraser.inflate(R.layout.popup_sketch_eraser, null);
 
