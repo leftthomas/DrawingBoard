@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zhangyp.higo.drawingboard">
+    package="com.left.higo.drawingboard">
 
 
     <!-- 从sdcard中读取数据的权限 -->
@@ -15,7 +15,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.left.drawboard.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

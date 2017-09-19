@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.zhangyp.higo.drawingboard.view;
+package com.left.drawboard.view;
 
 import android.app.Activity;
 import android.content.Context;
@@ -30,20 +30,17 @@ import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.widget.ImageView;
 
 import java.util.ArrayList;
 
 
 public class SketchView extends AppCompatImageView implements OnTouchListener {
 
-    private static final float TOUCH_TOLERANCE = 4;
-
     public static final int STROKE = 0;
     public static final int ERASER = 1;
     public static final int DEFAULT_STROKE_SIZE = 7;
     public static final int DEFAULT_ERASER_SIZE = 50;
-
+    private static final float TOUCH_TOLERANCE = 4;
     private float strokeSize = DEFAULT_STROKE_SIZE;
     private int strokeColor = Color.BLACK;
     private float eraserSize = DEFAULT_ERASER_SIZE;
@@ -90,17 +87,14 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
         invalidate();
     }
 
+    public int getMode() {
+        return this.mode;
+    }
 
     public void setMode(int mode) {
         if (mode == STROKE || mode == ERASER)
             this.mode = mode;
     }
-
-
-    public int getMode() {
-        return this.mode;
-    }
-
 
     /**
      * Change canvass background and force redraw
@@ -333,7 +327,7 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
         paths.clear();
         undonePaths.clear();
         // 先判断是否已经回收
-        if(bitmap != null && !bitmap.isRecycled()){
+        if (bitmap != null && !bitmap.isRecycled()) {
             // 回收并且置为null
             bitmap.recycle();
             bitmap = null;

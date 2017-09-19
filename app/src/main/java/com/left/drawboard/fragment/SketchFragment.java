@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.zhangyp.higo.drawingboard.fragment;
+package com.left.drawboard.fragment;
 
 import android.animation.ObjectAnimator;
 import android.app.Activity;
@@ -57,12 +57,12 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.OpacityBar;
 import com.larswerkman.holocolorpicker.SVBar;
+import com.left.drawboard.view.SketchView;
+import com.left.higo.drawingboard.R;
 import com.yancy.imageselector.ImageConfig;
 import com.yancy.imageselector.ImageLoader;
 import com.yancy.imageselector.ImageSelector;
 import com.yancy.imageselector.ImageSelectorActivity;
-import com.zhangyp.higo.drawingboard.R;
-import com.zhangyp.higo.drawingboard.view.SketchView;
 
 import java.io.File;
 import java.io.FileOutputStream;
