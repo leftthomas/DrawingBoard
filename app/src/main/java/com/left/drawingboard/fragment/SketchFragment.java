@@ -15,7 +15,6 @@ import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -85,7 +84,6 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
     @Bind(R.id.bt_show_bg_gray)
     Button btShowBgGray;
 
-
     private int seekBarStrokeProgress, seekBarEraserProgress;
     private View popupLayout, popupEraserLayout;
     private ImageView strokeImageView, eraserImageView;
@@ -104,13 +102,6 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
         setHasOptionsMenu(true);
         setRetainInstance(false);
     }
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -131,25 +122,15 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
         return view;
     }
 
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-    }
-
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-
         mSketchView.setOnDrawChangedListener(this);
-
 
         stroke.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 if (mSketchView.getMode() == SketchView.STROKE) {
                     showPopup(v, SketchView.STROKE);
@@ -192,20 +173,12 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
         erase.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                askForErase();
-            }
-
-            private void askForErase() {
-                new MaterialDialog.Builder(getActivity())
-                        .content("擦除手绘")
-                        .positiveText("确认")
-                        .callback(new MaterialDialog.ButtonCallback() {
+                new MaterialDialog.Builder(getActivity()).content("擦除手绘").positiveText("确认").callback(new MaterialDialog.ButtonCallback() {
                             @Override
                             public void onPositive(MaterialDialog dialog) {
                                 mSketchView.erase();
                             }
-                        })
-                        .build().show();
+                }).build().show();
             }
         });
 
@@ -217,44 +190,26 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
                     return;
                 }
                 //保存
-                new MaterialDialog.Builder(getActivity())
-                        .title("保存")
-                        .content("")
-                        .inputType(InputType.TYPE_CLASS_TEXT)
-                        .input("手绘名称(.png)", "a.png", new MaterialDialog.InputCallback() {
+                new MaterialDialog.Builder(getActivity()).title("保存").content("").inputType(InputType.TYPE_CLASS_TEXT).
+                        input("手绘名称(.png)", "a.png", new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(MaterialDialog dialog, CharSequence input) {
-                                // Do something
-                                Log.i("AAA", input.toString());
-
                                 save(input.toString());
                             }
                         }).show();
-
-
             }
         });
         sketchPhoto.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 //选择图片
-                ImageConfig imageConfig
-                        = new ImageConfig.Builder(new ImageLoader() {
+                ImageConfig imageConfig = new ImageConfig.Builder(new ImageLoader() {
                     @Override
                     public void displayImage(Context context, String path, ImageView imageView) {
-                        Glide.with(context)
-                                .load(path)
-                                .placeholder(com.yancy.imageselector.R.mipmap.imageselector_photo)
-                                .centerCrop()
-                                .into(imageView);
+                        Glide.with(context).load(path).placeholder(com.yancy.imageselector.R.mipmap.imageselector_photo).centerCrop().into(imageView);
                     }
-                })
-                        .steepToolBarColor(getResources().getColor(R.color.blue))
-                        .titleBgColor(getResources().getColor(R.color.blue))
-                        .titleSubmitTextColor(getResources().getColor(R.color.white))
-                        .titleTextColor(getResources().getColor(R.color.white))
-                        //截屏
-//                        .crop()
+                }).steepToolBarColor(getResources().getColor(R.color.blue)).titleBgColor(getResources().getColor(R.color.blue))
+                        .titleSubmitTextColor(getResources().getColor(R.color.white)).titleTextColor(getResources().getColor(R.color.white))
                         // 开启单选   （默认为多选）
                         .singleSelect()
                         // 开启拍照功能 （默认关闭）
@@ -262,20 +217,16 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
                         // 拍照后存放的图片路径（默认 /temp/picture） （会自动创建）
                         .filePath("/DrawingBoard/Pictures")
                         .build();
-
-
                 ImageSelector.open(getActivity(), imageConfig);   // 开启图片选择器
             }
         });
 
 
         // Inflate the popup_layout.xml
-        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Activity
-                .LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         popupLayout = inflater.inflate(R.layout.popup_sketch_stroke, null);
         // And the one for eraser
-        LayoutInflater inflaterEraser = (LayoutInflater) getActivity().getSystemService(Activity
-                .LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflaterEraser = (LayoutInflater) getActivity().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         popupEraserLayout = inflaterEraser.inflate(R.layout.popup_sketch_eraser, null);
 
         // Actual stroke shape size is retrieved
@@ -306,34 +257,10 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
 
     void setAlpha(View v, float alpha) {
         v.setAlpha(alpha);
-
     }
-
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                getActivity().onBackPressed();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 
     public void save(final String imgName) {
-        dialog = new MaterialDialog.Builder(getActivity())
-                .title("保存手绘")
-                .content("保存中...")
-                .progress(true, 0)
-                .progressIndeterminateStyle(true)
-                .show();
+        dialog = new MaterialDialog.Builder(getActivity()).title("保存手绘").content("保存中...").progress(true, 0).progressIndeterminateStyle(true).show();
         bitmap = mSketchView.getBitmap();
 
         new AsyncTask() {
@@ -342,8 +269,6 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
             protected Object doInBackground(Object[] params) {
 
                 if (bitmap != null) {
-                    String str = System.currentTimeMillis() + "";
-
                     try {
                         String filePath = "/mnt/sdcard/DrawingBoard/";
                         File dir = new File(filePath);
@@ -363,26 +288,20 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
                     } catch (Exception e) {
 
                         dialog.dismiss();
-                        Log.i("AAA", e.getMessage());
                         return "保存手绘失败" + e.getMessage();
                     }
                 }
-
                 return null;
             }
 
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
-
                 Toast.makeText(getActivity(), (String) o, Toast.LENGTH_SHORT).show();
 
             }
         }.execute("");
-
-
     }
-
 
     // The method that displays the popup.
     private void showPopup(View anchor, final int eraserOrStroke) {
