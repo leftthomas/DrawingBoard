@@ -96,7 +96,6 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
     private Bitmap bitmap;
     private int mScreenWidth;
     private int mScreenHeight;
-    private float density;
 
 
     @Override
@@ -121,8 +120,6 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
         View view = inflater.inflate(R.layout.fragment_sketch, container, false);
         ButterKnife.bind(this, view);
 
-        density = getResources().getDisplayMetrics().density;
-
         DisplayMetrics dm = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
         // 获取屏幕分辨率宽度
@@ -133,7 +130,6 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
         p.width = mScreenWidth;
         p.height = mScreenHeight;
         mSketchView.setLayoutParams(p);
-
 
         return view;
     }
@@ -286,18 +282,18 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
         popupEraserLayout = inflaterEraser.inflate(R.layout.popup_sketch_eraser, null);
 
         // Actual stroke shape size is retrieved
-        strokeImageView = (ImageView) popupLayout.findViewById(R.id.stroke_circle);
+        strokeImageView = popupLayout.findViewById(R.id.stroke_circle);
         final Drawable circleDrawable = getResources().getDrawable(R.drawable.circle);
         size = circleDrawable.getIntrinsicWidth();
         // Actual eraser shape size is retrieved
-        eraserImageView = (ImageView) popupEraserLayout.findViewById(R.id.stroke_circle);
+        eraserImageView = popupEraserLayout.findViewById(R.id.stroke_circle);
         size = circleDrawable.getIntrinsicWidth();
 
         setSeekbarProgress(SketchView.DEFAULT_STROKE_SIZE, SketchView.STROKE);
         setSeekbarProgress(SketchView.DEFAULT_ERASER_SIZE, SketchView.ERASER);
 
         // Stroke color picker initialization and event managing
-        mColorPicker = (ColorPicker) popupLayout.findViewById(R.id.stroke_color_picker);
+        mColorPicker = popupLayout.findViewById(R.id.stroke_color_picker);
         mColorPicker.addSVBar((SVBar) popupLayout.findViewById(R.id.sv_bar));
         mColorPicker.addOpacityBar((OpacityBar) popupLayout.findViewById(R.id.opacity_bar));
 

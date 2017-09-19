@@ -169,7 +169,7 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
     /**
      * Returns a new bitmap associated with drawed canvas
      *
-     * @return
+     * @return Bitmap
      */
     public Bitmap getBitmap() {
         if (paths.size() == 0)
@@ -211,7 +211,6 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
         }
     }
 
-
     public int getUndoneCount() {
         return undonePaths.size();
     }
@@ -219,26 +218,6 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
 
     public ArrayList<Pair<Path, Paint>> getPaths() {
         return paths;
-    }
-
-
-    public void setPaths(ArrayList<Pair<Path, Paint>> paths) {
-        this.paths = paths;
-    }
-
-
-    public ArrayList<Pair<Path, Paint>> getUndonePaths() {
-        return undonePaths;
-    }
-
-
-    public void setUndonePaths(ArrayList<Pair<Path, Paint>> undonePaths) {
-        this.undonePaths = undonePaths;
-    }
-
-
-    public int getStrokeSize() {
-        return Math.round(this.strokeSize);
     }
 
 
