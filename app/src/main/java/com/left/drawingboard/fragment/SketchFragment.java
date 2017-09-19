@@ -101,8 +101,6 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         setHasOptionsMenu(true);
         setRetainInstance(false);
     }
@@ -110,7 +108,6 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
 
     @Override
     public void onStart() {
-
         super.onStart();
     }
 
@@ -575,8 +572,5 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
 
             }
         });
-
-
     }
-
 }
