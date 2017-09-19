@@ -1,6 +1,5 @@
-package com.left.drawingboard.view;
+package com.left.drawingboard;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -19,15 +18,14 @@ import java.util.ArrayList;
 
 public class SketchView extends AppCompatImageView implements OnTouchListener {
 
+    //    画图板默认参数
     public static final int STROKE = 0;
     public static final int ERASER = 1;
     public static final int DEFAULT_STROKE_SIZE = 7;
     public static final int DEFAULT_ERASER_SIZE = 50;
-    private static final float TOUCH_TOLERANCE = 4;
     private float strokeSize = DEFAULT_STROKE_SIZE;
     private int strokeColor = Color.BLACK;
     private float eraserSize = DEFAULT_ERASER_SIZE;
-    private int background = Color.WHITE;
 
     //	private Canvas mCanvas;
     private Path m_Path;
@@ -35,9 +33,9 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
     private float mX, mY;
     private int width, height;
 
+    //    保存绘图轨迹，用来做撤销和重做
     private ArrayList<Pair<Path, Paint>> paths = new ArrayList<>();
     private ArrayList<Pair<Path, Paint>> undonePaths = new ArrayList<>();
-    private Context mContext;
 
     private Bitmap bitmap;
 
@@ -45,11 +43,8 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
 
     private OnDrawChangedListener onDrawChangedListener;
 
-
     public SketchView(Context context, AttributeSet attr) {
         super(context, attr);
-
-        this.mContext = context;
 
         setFocusable(true);
         setFocusableInTouchMode(true);
@@ -66,7 +61,6 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
         m_Paint.setStrokeCap(Paint.Cap.ROUND);
         m_Paint.setStrokeWidth(strokeSize);
         m_Path = new Path();
-        Paint newPaint = new Paint(m_Paint);
         invalidate();
     }
 
@@ -78,39 +72,6 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
         if (mode == STROKE || mode == ERASER)
             this.mode = mode;
     }
-
-    /**
-     * Change canvass background and force redraw
-     *
-     * @param bitmap
-     */
-    public void setBackgroundBitmap(Activity mActivity, Bitmap bitmap) {
-        if (!bitmap.isMutable()) {
-            Bitmap.Config bitmapConfig = bitmap.getConfig();
-            // set default bitmap config if none
-            if (bitmapConfig == null) {
-                bitmapConfig = Bitmap.Config.ARGB_8888;
-            }
-            bitmap = bitmap.copy(bitmapConfig, true);
-        }
-        this.bitmap = bitmap;
-//		this.bitmap = getScaledBitmap(mActivity, bitmap);
-//		mCanvas = new Canvas(bitmap);
-    }
-
-
-//	private Bitmap getScaledBitmap(Activity mActivity, Bitmap bitmap) {
-//		DisplayMetrics display = new DisplayMetrics();
-//		mActivity.getWindowManager().getDefaultDisplay().getMetrics(display);
-//		int screenWidth = display.widthPixels;
-//		int screenHeight = display.heightPixels;
-//		float scale = bitmap.getWidth() / screenWidth > bitmap.getHeight() / screenHeight ? bitmap.getWidth() /
-// screenWidth : bitmap.getHeight() / screenHeight;
-//		int scaledWidth = (int) (bitmap.getWidth() / scale);
-//		int scaledHeight = (int) (bitmap.getHeight() / scale);
-//		return Bitmap.createScaledBitmap(bitmap, scaledWidth, scaledHeight, true);
-//	}
-
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -185,8 +146,6 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
 
 
     private void touch_move(float x, float y) {
-        float dx = Math.abs(x - mX);
-        float dy = Math.abs(y - mY);
         m_Path.quadTo(mX, mY, (x + mX) / 2, (y + mY) / 2);
         mX = x;
         mY = y;
@@ -218,7 +177,7 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
 
         if (bitmap == null) {
             bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-            bitmap.eraseColor(background);
+            bitmap.eraseColor(Color.WHITE);
         }
         Canvas canvas = new Canvas(bitmap);
         for (Pair<Path, Paint> p : paths) {

@@ -9,7 +9,6 @@ import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
@@ -21,7 +20,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -40,7 +38,7 @@ import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.OpacityBar;
 import com.larswerkman.holocolorpicker.SVBar;
 import com.left.drawingboard.R;
-import com.left.drawingboard.view.SketchView;
+import com.left.drawingboard.SketchView;
 import com.yancy.imageselector.ImageConfig;
 import com.yancy.imageselector.ImageLoader;
 import com.yancy.imageselector.ImageSelector;
@@ -133,7 +131,7 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
 
         FrameLayout.LayoutParams p = (FrameLayout.LayoutParams) mSketchView.getLayoutParams();
         p.width = mScreenWidth;
-        p.height = mScreenWidth;
+        p.height = mScreenHeight;
         mSketchView.setLayoutParams(p);
 
 
@@ -314,13 +312,7 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
     }
 
     void setAlpha(View v, float alpha) {
-        if (Build.VERSION.SDK_INT < 11) {
-            AlphaAnimation animation = new AlphaAnimation(1.0F, alpha);
-            animation.setFillAfter(true);
-            v.startAnimation(animation);
-        } else {
-            v.setAlpha(alpha);
-        }
+        v.setAlpha(alpha);
 
     }
 
