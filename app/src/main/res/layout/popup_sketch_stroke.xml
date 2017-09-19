@@ -9,8 +9,8 @@
     <TextView 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="画笔大小"
-        android:textSize="11sp"/>
+        android:text="@string/pen_size"
+        android:textSize="12sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,23 +40,23 @@
     <TextView 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="饱和度"
-        android:textSize="11sp"/>
+        android:text="@string/saturation"
+        android:textSize="12sp" />
 
     <com.larswerkman.holocolorpicker.SVBar
-        android:id="@+id/svbar"
+        android:id="@+id/sv_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="11sp"/>
+        android:textSize="12sp" />
             
     <TextView 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="不透明度"
-        android:textSize="11sp"/>
+        android:text="@string/transparency"
+        android:textSize="12sp" />
 
     <com.larswerkman.holocolorpicker.OpacityBar
-        android:id="@+id/opacitybar"
+        android:id="@+id/opacity_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

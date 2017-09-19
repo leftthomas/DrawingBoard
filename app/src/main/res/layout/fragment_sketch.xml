@@ -29,7 +29,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:src="@drawable/ic_brush_grey600_24dp" />
+                android:src="@drawable/brush" />
 
             <ImageView
                 android:id="@+id/sketch_eraser"
@@ -39,7 +39,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:src="@drawable/ic_eraser" />
+                android:src="@drawable/eraser" />
 
             <ImageView
                 android:id="@+id/sketch_undo"
@@ -50,7 +50,7 @@
                 android:layout_weight="1"
                 android:alpha="0.4"
                 android:background="@null"
-                android:src="@drawable/ic_undo_grey600_24dp" />
+                android:src="@drawable/undo" />
 
             <ImageView
                 android:id="@+id/sketch_redo"
@@ -60,7 +60,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:alpha="0.4"
-                android:src="@drawable/ic_redo_grey600_24dp" />
+                android:src="@drawable/redo" />
 
 
             <ImageView
@@ -71,7 +71,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:src="@drawable/ic_photo_dark" />
+                android:src="@drawable/photo" />
 
             <ImageView
                 android:id="@+id/sketch_save"
@@ -81,7 +81,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:src="@drawable/ic_file" />
+                android:src="@drawable/save" />
 
             <ImageView
                 android:id="@+id/sketch_erase"
@@ -91,7 +91,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:src="@drawable/ic_delete_grey600_48dp" />
+                android:src="@drawable/delete" />
         </LinearLayout>
 
 

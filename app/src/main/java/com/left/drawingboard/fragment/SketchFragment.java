@@ -300,8 +300,8 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
 
         // Stroke color picker initialization and event managing
         mColorPicker = (ColorPicker) popupLayout.findViewById(R.id.stroke_color_picker);
-        mColorPicker.addSVBar((SVBar) popupLayout.findViewById(R.id.svbar));
-        mColorPicker.addOpacityBar((OpacityBar) popupLayout.findViewById(R.id.opacitybar));
+        mColorPicker.addSVBar((SVBar) popupLayout.findViewById(R.id.sv_bar));
+        mColorPicker.addOpacityBar((OpacityBar) popupLayout.findViewById(R.id.opacity_bar));
 
         mColorPicker.setOnColorChangedListener(new ColorPicker.OnColorChangedListener() {
             @Override

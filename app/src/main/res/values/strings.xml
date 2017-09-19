@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">画图板</string>
+    <string name="pen_size">画笔大小</string>
+    <string name="saturation">饱和度</string>
+    <string name="transparency">不透明度</string>
 </resources>
 
