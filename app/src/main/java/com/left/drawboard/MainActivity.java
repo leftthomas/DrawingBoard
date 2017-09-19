@@ -19,21 +19,6 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
         ft.add(R.id.fl_main, new SketchFragment(),FRAGMENT_TAG).commit();
-
-//        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-//        int width = wm.getDefaultDisplay().getWidth();
-//        int height = wm.getDefaultDisplay().getHeight();
-//
-//        WindowManager wm1 = this.getWindowManager();
-//        int width1 = wm1.getDefaultDisplay().getWidth();
-//        int height1 = wm1.getDefaultDisplay().getHeight();
-
-
-//        DisplayMetrics dm = new DisplayMetrics();
-//        getWindowManager().getDefaultDisplay().getMetrics(dm);
-//        int mScreenWidth = dm.widthPixels;// 获取屏幕分辨率宽度
-//        int mScreenHeight = dm.heightPixels;
-
     }
 
     @Override
