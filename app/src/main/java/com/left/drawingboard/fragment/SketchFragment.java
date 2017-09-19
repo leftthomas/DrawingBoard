@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -412,7 +411,6 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
             List<String> pathList = data.getStringArrayListExtra(ImageSelectorActivity.EXTRA_RESULT);
 
             for (String path : pathList) {
-                Log.i("ImagePathList", path);
                 Glide.with(this).load(path)
                         .asBitmap()
                         .centerCrop()
@@ -434,7 +432,6 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
 
-
         float screenRatio = 1.0f;
         float imgRatio = (float) height / (float) width;
         if (imgRatio >= screenRatio) {
@@ -449,7 +446,7 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
 
         Matrix matrix = new Matrix();
         matrix.postScale(scaleRatio, scaleRatio);
-        Bitmap dstbmp = Bitmap.createBitmap(bitmap, 0, 0, width, height,
+        final Bitmap dstbmp = Bitmap.createBitmap(bitmap, 0, 0, width, height,
                 matrix, true);
 
         GPUImage gpuImage = new GPUImage(getActivity());
@@ -458,7 +455,7 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
 
         ivBg.setImageBitmap(grayBmp);
         mSketchView.getBackground().setAlpha(150);
-
+//        mSketchView.setBackgroundBitmap(bitmap);
         ivBgColor.setImageBitmap(dstbmp);
         ObjectAnimator alpha = ObjectAnimator.ofFloat(ivBgColor, "alpha", 1.0f, 0.0f);
         alpha.setDuration(2000).start();
@@ -468,7 +465,7 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
             public void onClick(View v) {
                 ObjectAnimator alpha = ObjectAnimator.ofFloat(ivBgColor, "alpha", 0.0f, 1.0f);
                 alpha.setDuration(1000).start();
-
+//                mSketchView.setBackgroundBitmap(dstbmp);
             }
         });
         btShowBgGray.setOnClickListener(new OnClickListener() {
@@ -476,7 +473,7 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
             public void onClick(View v) {
                 ObjectAnimator alpha = ObjectAnimator.ofFloat(ivBgColor, "alpha", 1.0f, 0.0f);
                 alpha.setDuration(1000).start();
-
+//                mSketchView.setBackgroundBitmap(grayBmp);
             }
         });
     }

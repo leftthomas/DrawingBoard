@@ -27,7 +27,6 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
     private int strokeColor = Color.BLACK;
     private float eraserSize = DEFAULT_ERASER_SIZE;
 
-    //	private Canvas mCanvas;
     private Path m_Path;
     private Paint m_Paint;
     private float mX, mY;
@@ -61,6 +60,7 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
         m_Paint.setStrokeCap(Paint.Cap.ROUND);
         m_Paint.setStrokeWidth(strokeSize);
         m_Path = new Path();
+
         invalidate();
     }
 
@@ -165,6 +165,15 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
         m_Path = new Path();
     }
 
+
+//    /**
+//     * Change canvass background and force redraw
+//     */
+//    public void setBackgroundBitmap(Bitmap bitmap) {
+//        this.bitmap=bitmap;
+//    }
+
+
     /**
      * Returns a new bitmap associated with drawed canvas
      *
@@ -183,21 +192,6 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
             canvas.drawPath(p.first, p.second);
         }
         return bitmap;
-    }
-
-    /**
-     * Change canvas background and force redraw
-     */
-    public void setBitmap(Bitmap bitmap) {
-        if (!bitmap.isMutable()) {
-            Bitmap.Config bitmapConfig = bitmap.getConfig();
-            // set default bitmap config if none
-            if (bitmapConfig == null) {
-                bitmapConfig = Bitmap.Config.ARGB_8888;
-            }
-            bitmap = bitmap.copy(bitmapConfig, true);
-        }
-        this.bitmap = bitmap;
     }
 
     /*
