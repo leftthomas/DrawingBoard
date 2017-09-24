@@ -449,6 +449,8 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
         // 默认初始时显示手绘效果
         ObjectAnimator alpha = ObjectAnimator.ofFloat(ivOriginal, "alpha", 1.0f, 0.0f);
         alpha.setDuration(2000).start();
+        // 默认bitmap为grayBmp
+        mSketchView.setBitmap(grayBmp);
     }
 
     // 切换显示手绘图和原图
@@ -459,10 +461,12 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
             case R.id.show_original:
                 ObjectAnimator alpha = ObjectAnimator.ofFloat(ivOriginal, "alpha", 0.0f, 1.0f);
                 alpha.setDuration(1000).start();
+//                mSketchView.setBitmap(getActivity(),grayBmp);
                 return true;
             case R.id.show_painted:
                 ObjectAnimator alpha2 = ObjectAnimator.ofFloat(ivOriginal, "alpha", 1.0f, 0.0f);
                 alpha2.setDuration(1000).start();
+//                mSketchView.setBitmap(getActivity(),grayBmp);
                 return true;
         }
         return true;

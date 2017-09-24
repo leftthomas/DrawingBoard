@@ -164,6 +164,7 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
             return null;
         if (bitmap == null) {
             bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            // 底色设置成白色
             bitmap.eraseColor(Color.WHITE);
         }
         Canvas canvas = new Canvas(bitmap);
@@ -171,6 +172,10 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
             canvas.drawPath(p.first, p.second);
         }
         return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
     }
 
     // 撤销一笔
