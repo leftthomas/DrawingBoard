@@ -171,6 +171,9 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
                             @Override
                             public void onPositive(MaterialDialog dialog) {
                                 mSketchView.erase();
+                                // 记得把ivPainted、ivOriginal置空
+                                ivPainted.setImageBitmap(null);
+                                ivOriginal.setImageBitmap(null);
                             }
                 }).build().show();
             }
@@ -281,11 +284,11 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
                         out.close();
 
                         dialog.dismiss();
-                        return "保存手绘成功" + filePath + imgName;
+                        return "保存画图成功" + filePath + imgName;
                     } catch (Exception e) {
 
                         dialog.dismiss();
-                        return "保存手绘失败" + e.getMessage();
+                        return "保存画图失败" + e.getMessage();
                     }
                 }
                 return null;
