@@ -76,10 +76,12 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
     ImageView ivBgColor;
 
     private int seekBarStrokeProgress, seekBarEraserProgress;
-    private View popupLayout, popupEraserLayout;
+    private View popupStrokeLayout, popupEraserLayout;
     private ImageView strokeImageView, eraserImageView;
+    //    调色板中黑色小圆球的size
     private int size;
     private ColorPicker mColorPicker;
+    //    记录弹出调色板中ColorPicker的颜色，用以弹出时的颜色中心初始化
     private int oldColor;
     private MaterialDialog dialog;
     private Bitmap bitmap;
@@ -219,29 +221,26 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
             }
         });
 
-
-        // Inflate the popup_layout.xml
-        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-        popupLayout = inflater.inflate(R.layout.popup_sketch_stroke, null);
-        // And the one for eraser
+        // Inflate布局文件
+        LayoutInflater inflaterStroke = (LayoutInflater) getActivity().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+        popupStrokeLayout = inflaterStroke.inflate(R.layout.popup_sketch_stroke, null);
         LayoutInflater inflaterEraser = (LayoutInflater) getActivity().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         popupEraserLayout = inflaterEraser.inflate(R.layout.popup_sketch_eraser, null);
 
-        // Actual stroke shape size is retrieved
-        strokeImageView = popupLayout.findViewById(R.id.stroke_circle);
+        // 实例化stroke、eraser弹出调色板黑色小圆球控件
+        strokeImageView = popupStrokeLayout.findViewById(R.id.stroke_circle);
+        eraserImageView = popupEraserLayout.findViewById(R.id.stroke_circle);
+
         final Drawable circleDrawable = getResources().getDrawable(R.drawable.circle);
         size = circleDrawable.getIntrinsicWidth();
-        // Actual eraser shape size is retrieved
-        eraserImageView = popupEraserLayout.findViewById(R.id.stroke_circle);
-        size = circleDrawable.getIntrinsicWidth();
 
-        setSeekbarProgress(SketchView.DEFAULT_STROKE_SIZE, SketchView.STROKE);
-        setSeekbarProgress(SketchView.DEFAULT_ERASER_SIZE, SketchView.ERASER);
+        setSeekBarProgress(SketchView.DEFAULT_STROKE_SIZE, SketchView.STROKE);
+        setSeekBarProgress(SketchView.DEFAULT_ERASER_SIZE, SketchView.ERASER);
 
-        // Stroke color picker initialization and event managing
-        mColorPicker = popupLayout.findViewById(R.id.stroke_color_picker);
-        mColorPicker.addSVBar((SVBar) popupLayout.findViewById(R.id.sv_bar));
-        mColorPicker.addOpacityBar((OpacityBar) popupLayout.findViewById(R.id.opacity_bar));
+        // stroke color picker初始化
+        mColorPicker = popupStrokeLayout.findViewById(R.id.stroke_color_picker);
+        mColorPicker.addSVBar((SVBar) popupStrokeLayout.findViewById(R.id.sv_bar));
+        mColorPicker.addOpacityBar((OpacityBar) popupStrokeLayout.findViewById(R.id.opacity_bar));
 
         mColorPicker.setOnColorChangedListener(new ColorPicker.OnColorChangedListener() {
             @Override
@@ -258,7 +257,7 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
     }
 
     public void save(final String imgName) {
-        dialog = new MaterialDialog.Builder(getActivity()).title("保存手绘").content("保存中...").progress(true, 0).progressIndeterminateStyle(true).show();
+        dialog = new MaterialDialog.Builder(getActivity()).title("保存画图").content("保存中...").progress(true, 0).progressIndeterminateStyle(true).show();
         bitmap = mSketchView.getBitmap();
 
         new AsyncTask() {
@@ -282,7 +281,7 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
                         out.close();
 
                         dialog.dismiss();
-                        return "保存手绘成功" + filePath;
+                        return "保存手绘成功" + filePath + imgName;
                     } catch (Exception e) {
 
                         dialog.dismiss();
@@ -301,7 +300,7 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
         }.execute("");
     }
 
-    // The method that displays the popup.
+    // 显示弹出调色板
     private void showPopup(View anchor, final int eraserOrStroke) {
 
         boolean isErasing = eraserOrStroke == SketchView.ERASER;
@@ -311,64 +310,54 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
         DisplayMetrics metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
-        // Creating the PopupWindow
+        // 创建弹出调色板
         PopupWindow popup = new PopupWindow(getActivity());
-        popup.setContentView(isErasing ? popupEraserLayout : popupLayout);
+        popup.setContentView(isErasing ? popupEraserLayout : popupStrokeLayout);
         popup.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
         popup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         popup.setFocusable(true);
         popup.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-
-
                 if (mColorPicker.getColor() != oldColor)
                     mColorPicker.setOldCenterColor(oldColor);
             }
         });
 
-        // Clear the default translucent background
+        // 清除默认的半透明背景
         popup.setBackgroundDrawable(new BitmapDrawable());
 
-        // Displaying the popup at the specified location, + offsets (transformed 
-        // dp to pixel to support multiple screen sizes)
         popup.showAsDropDown(anchor);
 
-        // Stroke size seekbar initialization and event managing
+        // seekbar初始化
         SeekBar mSeekBar;
         mSeekBar = (SeekBar) (isErasing ? popupEraserLayout
-                .findViewById(R.id.stroke_seekbar) : popupLayout
+                .findViewById(R.id.stroke_seekbar) : popupStrokeLayout
                 .findViewById(R.id.stroke_seekbar));
         mSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
 
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
             }
 
-
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress,
                                           boolean fromUser) {
-                // When the seekbar is moved a new size is calculated and the new shape
-                // is positioned centrally into the ImageView
-                setSeekbarProgress(progress, eraserOrStroke);
+                setSeekBarProgress(progress, eraserOrStroke);
             }
         });
         int progress = isErasing ? seekBarEraserProgress : seekBarStrokeProgress;
         mSeekBar.setProgress(progress);
     }
 
-
-    protected void setSeekbarProgress(int progress, int eraserOrStroke) {
+    protected void setSeekBarProgress(int progress, int eraserOrStroke) {
         int calcProgress = progress > 1 ? progress : 1;
 
         int newSize = Math.round((size / 100f) * calcProgress);
         int offset = Math.round((size - newSize) / 2);
-
 
         LayoutParams lp = new LayoutParams(newSize, newSize);
         lp.setMargins(offset, offset, offset, offset);
@@ -379,11 +368,10 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
             eraserImageView.setLayoutParams(lp);
             seekBarEraserProgress = progress;
         }
-
         mSketchView.setSize(newSize, eraserOrStroke);
     }
 
-
+    //    设置redo、undo的显示状态
     @Override
     public void onDrawChanged() {
         // Undo
@@ -398,38 +386,32 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
             setAlpha(redo, 0.4f);
     }
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == ImageSelector.IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
-
-            // Get Image Path List
+            // 获取Image Path List
             List<String> pathList = data.getStringArrayListExtra(ImageSelectorActivity.EXTRA_RESULT);
-
             for (String path : pathList) {
-                Glide.with(this).load(path)
-                        .asBitmap()
-                        .centerCrop()
-                        .into(new SimpleTarget<Bitmap>() {
+                Glide.with(this).load(path).asBitmap().centerCrop().into(new SimpleTarget<Bitmap>() {
 
                             @Override
                             public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
-                                init(resource);
+                                initBitmap(resource);
                             }
                         });
             }
         }
     }
 
-    private void init(Bitmap bitmap) {
+    //    选择图片后初始化图片相关控件
+    private void initBitmap(Bitmap bitmap) {
 
         float scaleRatio = 1;
 
@@ -441,7 +423,6 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
         if (imgRatio >= screenRatio) {
             //高度大于屏幕，以高为准
             scaleRatio = (float) mScreenHeight / (float) height;
-
         }
 
         if (imgRatio < screenRatio) {
@@ -454,12 +435,12 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
                 matrix, true);
 
         GPUImage gpuImage = new GPUImage(getActivity());
+//        这是手绘效果的filter
         gpuImage.setFilter(new GPUImageSketchFilter());
         final Bitmap grayBmp = gpuImage.getBitmapWithFilterApplied(dstbmp);
 
         ivBg.setImageBitmap(grayBmp);
         mSketchView.getBackground().setAlpha(150);
-//        mSketchView.setBackgroundBitmap(bitmap);
         ivBgColor.setImageBitmap(dstbmp);
         ObjectAnimator alpha = ObjectAnimator.ofFloat(ivBgColor, "alpha", 1.0f, 0.0f);
         alpha.setDuration(2000).start();
@@ -472,12 +453,10 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
             case R.id.show_original:
                 ObjectAnimator alpha = ObjectAnimator.ofFloat(ivBgColor, "alpha", 0.0f, 1.0f);
                 alpha.setDuration(1000).start();
-//                mSketchView.setBackgroundBitmap(dstbmp);
                 return true;
             case R.id.show_painted:
                 ObjectAnimator alpha2 = ObjectAnimator.ofFloat(ivBgColor, "alpha", 1.0f, 0.0f);
                 alpha2.setDuration(1000).start();
-//                mSketchView.setBackgroundBitmap(grayBmp);
                 return true;
         }
         return true;
