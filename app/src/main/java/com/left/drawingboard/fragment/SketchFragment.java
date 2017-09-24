@@ -10,6 +10,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
 import android.util.DisplayMetrics;
@@ -103,7 +104,7 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
         // 获取屏幕分辨率宽度
         mScreenWidth = dm.widthPixels;
         mScreenHeight = dm.heightPixels;
-
+        // 给mSketchView设置宽高
         FrameLayout.LayoutParams p = (FrameLayout.LayoutParams) mSketchView.getLayoutParams();
         p.width = mScreenWidth;
         p.height = mScreenHeight;
@@ -131,7 +132,7 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
                 }
             }
         });
-
+        // 默认初始化时橡皮擦为未选中状态
         setAlpha(eraser, 0.4f);
         eraser.setOnClickListener(new OnClickListener() {
             @Override
@@ -159,11 +160,12 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
                 mSketchView.redo();
             }
         });
-
+        // 擦除画图
         erase.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                new MaterialDialog.Builder(getActivity()).content("擦除手绘").positiveText("确认").callback(new MaterialDialog.ButtonCallback() {
+                new MaterialDialog.Builder(getActivity()).content("擦除所有画图？").positiveText("确认")
+                        .negativeText("取消").callback(new MaterialDialog.ButtonCallback() {
                             @Override
                             public void onPositive(MaterialDialog dialog) {
                                 mSketchView.erase();
@@ -171,20 +173,25 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
                 }).build().show();
             }
         });
-
+        // 保存画图
         sketchSave.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mSketchView.getPaths().size() == 0) {
-                    Toast.makeText(getActivity(), "你还没有手绘", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "你还没有画图", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 //保存
-                new MaterialDialog.Builder(getActivity()).title("保存").content("").inputType(InputType.TYPE_CLASS_TEXT).
-                        input("手绘名称(.png)", "a.png", new MaterialDialog.InputCallback() {
+                new MaterialDialog.Builder(getActivity()).title("保存").negativeText("取消").inputType(InputType
+                        .TYPE_CLASS_TEXT).input("画图名称(.png)", "a.png", new MaterialDialog.InputCallback() {
                             @Override
-                            public void onInput(MaterialDialog dialog, CharSequence input) {
-                                save(input.toString());
+                            public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                                if (input == null || input.length() == 0) {
+                                    Toast.makeText(getActivity(), "请输入画图名称", Toast.LENGTH_SHORT).show();
+                                } else if (input.length() <= 4 || !input.subSequence(input.length() - 4, input.length()).toString().equals(".png")) {
+                                    Toast.makeText(getActivity(), "请输入正确的画图名称(.png)", Toast.LENGTH_SHORT).show();
+                                } else
+                                    save(input.toString());
                             }
                         }).show();
             }
@@ -198,7 +205,7 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
                     public void displayImage(Context context, String path, ImageView imageView) {
                         Glide.with(context).load(path).placeholder(com.yancy.imageselector.R.mipmap.imageselector_photo).centerCrop().into(imageView);
                     }
-                }).steepToolBarColor(getResources().getColor(R.color.blue)).titleBgColor(getResources().getColor(R.color.blue))
+                }).steepToolBarColor(getResources().getColor(R.color.colorPrimary)).titleBgColor(getResources().getColor(R.color.colorPrimary))
                         .titleSubmitTextColor(getResources().getColor(R.color.white)).titleTextColor(getResources().getColor(R.color.white))
                         // 开启单选   （默认为多选）
                         .singleSelect()
@@ -207,7 +214,8 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
                         // 拍照后存放的图片路径（默认 /temp/picture） （会自动创建）
                         .filePath("/DrawingBoard/Pictures")
                         .build();
-                ImageSelector.open(getActivity(), imageConfig);   // 开启图片选择器
+                // 开启图片选择器
+                ImageSelector.open(getActivity(), imageConfig);
             }
         });
 
