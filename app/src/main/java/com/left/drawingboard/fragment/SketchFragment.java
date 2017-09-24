@@ -78,10 +78,10 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
     private int seekBarStrokeProgress, seekBarEraserProgress;
     private View popupStrokeLayout, popupEraserLayout;
     private ImageView strokeImageView, eraserImageView;
-    //    调色板中黑色小圆球的size
+    // 调色板中黑色小圆球的size
     private int size;
     private ColorPicker mColorPicker;
-    //    记录弹出调色板中ColorPicker的颜色，用以弹出时的颜色中心初始化
+    // 记录弹出调色板中ColorPicker的颜色，用以弹出时的颜色中心初始化
     private int oldColor;
     private MaterialDialog dialog;
     private Bitmap bitmap;
@@ -371,7 +371,7 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
         mSketchView.setSize(newSize, eraserOrStroke);
     }
 
-    //    设置redo、undo的显示状态
+    // 设置redo、undo的显示状态
     @Override
     public void onDrawChanged() {
         // Undo
@@ -410,7 +410,7 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
         }
     }
 
-    //    选择图片后初始化图片相关控件
+    // 选择图片后初始化图片相关控件
     private void initBitmap(Bitmap bitmap) {
 
         float scaleRatio = 1;
@@ -421,7 +421,7 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
         float screenRatio = 1.0f;
         float imgRatio = (float) height / (float) width;
         if (imgRatio >= screenRatio) {
-            //高度大于屏幕，以高为准
+            // 高度大于屏幕，以高为准
             scaleRatio = (float) mScreenHeight / (float) height;
         }
 
@@ -435,20 +435,20 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
                 matrix, true);
 
         GPUImage gpuImage = new GPUImage(getActivity());
-//        这是手绘效果的filter
+        // 这是手绘效果的filter
         gpuImage.setFilter(new GPUImageSketchFilter());
         final Bitmap grayBmp = gpuImage.getBitmapWithFilterApplied(dstBmp);
 
-//        设置下透明度，不然原图会看不见
+        // 设置下透明度，不然原图会看不见
         mSketchView.getBackground().setAlpha(150);
         ivPainted.setImageBitmap(grayBmp);
         ivOriginal.setImageBitmap(dstBmp);
-//        默认初始时显示手绘效果
+        // 默认初始时显示手绘效果
         ObjectAnimator alpha = ObjectAnimator.ofFloat(ivOriginal, "alpha", 1.0f, 0.0f);
         alpha.setDuration(2000).start();
     }
 
-    //    切换显示手绘图和原图
+    // 切换显示手绘图和原图
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

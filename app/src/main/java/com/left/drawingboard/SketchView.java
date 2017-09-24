@@ -18,12 +18,13 @@ import java.util.ArrayList;
 
 public class SketchView extends AppCompatImageView implements OnTouchListener {
 
-    //    画图板默认参数
+    // 画图板默认参数
     public static final int STROKE = 0;
     public static final int ERASER = 1;
     public static final int DEFAULT_STROKE_SIZE = 7;
     public static final int DEFAULT_ERASER_SIZE = 50;
     private float strokeSize = DEFAULT_STROKE_SIZE;
+    // 默认初始化画笔颜色
     private int strokeColor = Color.BLACK;
     private float eraserSize = DEFAULT_ERASER_SIZE;
 
@@ -32,12 +33,12 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
     private float mX, mY;
     private int width, height;
 
-    //    保存绘图轨迹，用来做撤销和重做
+    // 保存画图轨迹，用来做撤销和重做
     private ArrayList<Pair<Path, Paint>> paths = new ArrayList<>();
     private ArrayList<Pair<Path, Paint>> undonePaths = new ArrayList<>();
-
+    // 记录选择的图片，方便后续保存操作
     private Bitmap bitmap;
-
+    // 默认初始化的mode
     private int mode = STROKE;
 
     private OnDrawChangedListener onDrawChangedListener;
@@ -50,7 +51,7 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
         setBackgroundColor(Color.WHITE);
 
         this.setOnTouchListener(this);
-
+        // 初始化paint
         m_Paint = new Paint();
         m_Paint.setAntiAlias(true);
         m_Paint.setDither(true);
@@ -81,7 +82,6 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
         setMeasuredDimension(width, height);
     }
 
-
     @Override
     public boolean onTouch(View arg0, MotionEvent event) {
         float x = event.getX();
@@ -104,7 +104,6 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
         return true;
     }
 
-
     @Override
     protected void onDraw(Canvas canvas) {
         if (bitmap != null) {
@@ -114,13 +113,11 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
         for (Pair<Path, Paint> p : paths) {
             canvas.drawPath(p.first, p.second);
         }
-
         onDrawChangedListener.onDrawChanged();
     }
 
-
     private void touch_start(float x, float y) {
-        // Clearing undone list
+        // 清除undone list
         undonePaths.clear();
 
         if (mode == ERASER) {
@@ -130,10 +127,9 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
             m_Paint.setColor(strokeColor);
             m_Paint.setStrokeWidth(strokeSize);
         }
-
-        Paint newPaint = new Paint(m_Paint); // Clones the mPaint object
-
-        // Avoids that a sketch with just erasures is saved
+        // 复制m_Paint
+        Paint newPaint = new Paint(m_Paint);
+        // 避免啥都没有的时候调用橡皮擦在那里乱擦
         if (!(paths.size() == 0 && mode == ERASER && bitmap == null)) {
             paths.add(new Pair<>(m_Path, newPaint));
         }
@@ -144,45 +140,28 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
         mY = y;
     }
 
-
     private void touch_move(float x, float y) {
         m_Path.quadTo(mX, mY, (x + mX) / 2, (y + mY) / 2);
         mX = x;
         mY = y;
     }
 
-
     private void touch_up() {
         m_Path.lineTo(mX, mY);
-        Paint newPaint = new Paint(m_Paint); // Clones the mPaint object
-
-        // Avoids that a sketch with just erasures is saved
+        // 复制m_Paint
+        Paint newPaint = new Paint(m_Paint);
+        // 避免啥都没有的时候调用橡皮擦在那里乱擦
         if (!(paths.size() == 0 && mode == ERASER && bitmap == null)) {
             paths.add(new Pair<>(m_Path, newPaint));
         }
-
-        // kill this so we don't double draw
+        // 避免重复画两次
         m_Path = new Path();
     }
 
-
-//    /**
-//     * Change canvass background and force redraw
-//     */
-//    public void setBackgroundBitmap(Bitmap bitmap) {
-//        this.bitmap=bitmap;
-//    }
-
-
-    /**
-     * Returns a new bitmap associated with drawed canvas
-     *
-     * @return Bitmap
-     */
+    // 返回画图结果用来保存
     public Bitmap getBitmap() {
         if (paths.size() == 0)
             return null;
-
         if (bitmap == null) {
             bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             bitmap.eraseColor(Color.WHITE);
@@ -194,9 +173,7 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
         return bitmap;
     }
 
-    /*
-     * 删除一笔
-     */
+    // 撤销一笔
     public void undo() {
         if (paths.size() >= 2) {
             undonePaths.add(paths.remove(paths.size() - 1));
@@ -206,10 +183,7 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
         }
     }
 
-
-    /*
-     * 撤销
-     */
+    // 重做一笔
     public void redo() {
         if (undonePaths.size() > 0) {
             paths.add(undonePaths.remove(undonePaths.size() - 1));
@@ -222,11 +196,9 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
         return undonePaths.size();
     }
 
-
     public ArrayList<Pair<Path, Paint>> getPaths() {
         return paths;
     }
-
 
     public void setSize(int size, int eraserOrStroke) {
         switch (eraserOrStroke) {
@@ -237,20 +209,17 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
                 eraserSize = size;
                 break;
         }
-
     }
-
 
     public int getStrokeColor() {
         return this.strokeColor;
     }
 
-
     public void setStrokeColor(int color) {
         strokeColor = color;
     }
 
-
+    // 删除所有画图，包括选择的图片
     public void erase() {
         paths.clear();
         undonePaths.clear();
@@ -264,13 +233,11 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
         invalidate();
     }
 
-
     public void setOnDrawChangedListener(OnDrawChangedListener listener) {
         this.onDrawChangedListener = listener;
     }
 
     public interface OnDrawChangedListener {
-
-        public void onDrawChanged();
+        void onDrawChanged();
     }
 }
