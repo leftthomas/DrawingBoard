@@ -177,7 +177,7 @@ public class SketchView extends AppCompatImageView implements OnTouchListener {
     public void undo() {
         if (paths.size() >= 2) {
             undonePaths.add(paths.remove(paths.size() - 1));
-            // If there is not only one path remained both touch and move paths are removed
+            // 有两种动作，一种是touch,一种是move，所以需要做两次
             undonePaths.add(paths.remove(paths.size() - 1));
             invalidate();
         }
