@@ -4,5 +4,7 @@
     <string name="pen_size">画笔大小</string>
     <string name="saturation">饱和度</string>
     <string name="transparency">不透明度</string>
+    <string name="original">原图</string>
+    <string name="painted">手绘</string>
 </resources>
 

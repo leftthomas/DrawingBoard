@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/show_original"
+        android:title="@string/original"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/show_painted"
+        android:title="@string/painted"
+        app:showAsAction="never" />
+</menu>

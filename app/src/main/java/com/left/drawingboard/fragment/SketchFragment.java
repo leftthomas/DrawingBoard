@@ -14,11 +14,11 @@ import android.support.v4.app.Fragment;
 import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
@@ -73,10 +73,6 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
     ImageView ivBg;
     @Bind(R.id.iv_bg_color)
     ImageView ivBgColor;
-    @Bind(R.id.bt_show_bg)
-    Button btShowBg;
-    @Bind(R.id.bt_show_bg_gray)
-    Button btShowBgGray;
 
     private int seekBarStrokeProgress, seekBarEraserProgress;
     private View popupLayout, popupEraserLayout;
@@ -459,22 +455,23 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
         ivBgColor.setImageBitmap(dstbmp);
         ObjectAnimator alpha = ObjectAnimator.ofFloat(ivBgColor, "alpha", 1.0f, 0.0f);
         alpha.setDuration(2000).start();
+    }
 
-        btShowBg.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.show_original:
                 ObjectAnimator alpha = ObjectAnimator.ofFloat(ivBgColor, "alpha", 0.0f, 1.0f);
                 alpha.setDuration(1000).start();
 //                mSketchView.setBackgroundBitmap(dstbmp);
-            }
-        });
-        btShowBgGray.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ObjectAnimator alpha = ObjectAnimator.ofFloat(ivBgColor, "alpha", 1.0f, 0.0f);
-                alpha.setDuration(1000).start();
+                return true;
+            case R.id.show_painted:
+                ObjectAnimator alpha2 = ObjectAnimator.ofFloat(ivBgColor, "alpha", 1.0f, 0.0f);
+                alpha2.setDuration(1000).start();
 //                mSketchView.setBackgroundBitmap(grayBmp);
-            }
-        });
+                return true;
+        }
+        return true;
     }
 }
