@@ -431,21 +431,24 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
 
         Matrix matrix = new Matrix();
         matrix.postScale(scaleRatio, scaleRatio);
-        final Bitmap dstbmp = Bitmap.createBitmap(bitmap, 0, 0, width, height,
+        final Bitmap dstBmp = Bitmap.createBitmap(bitmap, 0, 0, width, height,
                 matrix, true);
 
         GPUImage gpuImage = new GPUImage(getActivity());
 //        这是手绘效果的filter
         gpuImage.setFilter(new GPUImageSketchFilter());
-        final Bitmap grayBmp = gpuImage.getBitmapWithFilterApplied(dstbmp);
+        final Bitmap grayBmp = gpuImage.getBitmapWithFilterApplied(dstBmp);
 
-        ivBg.setImageBitmap(grayBmp);
+//        设置下透明度，不然原图会看不见
         mSketchView.getBackground().setAlpha(150);
-        ivBgColor.setImageBitmap(dstbmp);
+        ivBg.setImageBitmap(grayBmp);
+        ivBgColor.setImageBitmap(dstBmp);
+//        默认初始时显示手绘效果
         ObjectAnimator alpha = ObjectAnimator.ofFloat(ivBgColor, "alpha", 1.0f, 0.0f);
         alpha.setDuration(2000).start();
     }
 
+    //    切换显示手绘图和原图
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
