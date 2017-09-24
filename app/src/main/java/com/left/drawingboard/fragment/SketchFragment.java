@@ -85,6 +85,8 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
     private int oldColor;
     private MaterialDialog dialog;
     private Bitmap bitmap;
+    private Bitmap dstBmp;
+    private Bitmap grayBmp;
     private int mScreenWidth;
     private int mScreenHeight;
 
@@ -434,13 +436,12 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
 
         Matrix matrix = new Matrix();
         matrix.postScale(scaleRatio, scaleRatio);
-        final Bitmap dstBmp = Bitmap.createBitmap(bitmap, 0, 0, width, height,
-                matrix, true);
+        dstBmp = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
 
         GPUImage gpuImage = new GPUImage(getActivity());
         // 这是手绘效果的filter
         gpuImage.setFilter(new GPUImageSketchFilter());
-        final Bitmap grayBmp = gpuImage.getBitmapWithFilterApplied(dstBmp);
+        grayBmp = gpuImage.getBitmapWithFilterApplied(dstBmp);
 
         // 设置下透明度，不然原图会看不见
         mSketchView.getBackground().setAlpha(150);
@@ -461,12 +462,12 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
             case R.id.show_original:
                 ObjectAnimator alpha = ObjectAnimator.ofFloat(ivOriginal, "alpha", 0.0f, 1.0f);
                 alpha.setDuration(1000).start();
-//                mSketchView.setBitmap(getActivity(),grayBmp);
+                mSketchView.setBitmap(dstBmp);
                 return true;
             case R.id.show_painted:
                 ObjectAnimator alpha2 = ObjectAnimator.ofFloat(ivOriginal, "alpha", 1.0f, 0.0f);
                 alpha2.setDuration(1000).start();
-//                mSketchView.setBitmap(getActivity(),grayBmp);
+                mSketchView.setBitmap(grayBmp);
                 return true;
         }
         return true;
