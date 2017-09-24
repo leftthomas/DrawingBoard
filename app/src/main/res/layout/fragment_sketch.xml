@@ -94,13 +94,13 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/iv_bg"
+                android:id="@+id/iv_painted"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center" />
 
             <ImageView
-                android:id="@+id/iv_bg_color"
+                android:id="@+id/iv_original"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center" />

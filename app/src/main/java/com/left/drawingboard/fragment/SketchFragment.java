@@ -70,10 +70,10 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
     ImageView sketchSave;
     @Bind(R.id.sketch_photo)
     ImageView sketchPhoto;
-    @Bind(R.id.iv_bg)
-    ImageView ivBg;
-    @Bind(R.id.iv_bg_color)
-    ImageView ivBgColor;
+    @Bind(R.id.iv_painted)
+    ImageView ivPainted;
+    @Bind(R.id.iv_original)
+    ImageView ivOriginal;
 
     private int seekBarStrokeProgress, seekBarEraserProgress;
     private View popupStrokeLayout, popupEraserLayout;
@@ -441,10 +441,10 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
 
 //        设置下透明度，不然原图会看不见
         mSketchView.getBackground().setAlpha(150);
-        ivBg.setImageBitmap(grayBmp);
-        ivBgColor.setImageBitmap(dstBmp);
+        ivPainted.setImageBitmap(grayBmp);
+        ivOriginal.setImageBitmap(dstBmp);
 //        默认初始时显示手绘效果
-        ObjectAnimator alpha = ObjectAnimator.ofFloat(ivBgColor, "alpha", 1.0f, 0.0f);
+        ObjectAnimator alpha = ObjectAnimator.ofFloat(ivOriginal, "alpha", 1.0f, 0.0f);
         alpha.setDuration(2000).start();
     }
 
@@ -454,11 +454,11 @@ public class SketchFragment extends Fragment implements SketchView.OnDrawChanged
         int id = item.getItemId();
         switch (id) {
             case R.id.show_original:
-                ObjectAnimator alpha = ObjectAnimator.ofFloat(ivBgColor, "alpha", 0.0f, 1.0f);
+                ObjectAnimator alpha = ObjectAnimator.ofFloat(ivOriginal, "alpha", 0.0f, 1.0f);
                 alpha.setDuration(1000).start();
                 return true;
             case R.id.show_painted:
-                ObjectAnimator alpha2 = ObjectAnimator.ofFloat(ivBgColor, "alpha", 1.0f, 0.0f);
+                ObjectAnimator alpha2 = ObjectAnimator.ofFloat(ivOriginal, "alpha", 1.0f, 0.0f);
                 alpha2.setDuration(1000).start();
                 return true;
         }
